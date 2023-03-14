@@ -14,3 +14,7 @@ def generate_image_prompt(transcript):
     return f"Generate a concise prompt to provide to the open ai \
             image generation model from the following story: {transcript}.  \
             Make sure it uses a colored pencil drawing style."
+
+def generate_image_from_transcript(transcript):
+    prompt = generate_image_prompt(transcript)
+    return generate_image(prompt)
