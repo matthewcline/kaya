@@ -13,26 +13,28 @@ def create_story(request):
     transcript = request.POST.get('transcript')
 
     if audio_file_path:
-        # transcript = audios_app.generate_transcript(audio_file_path)
-        transcript = "test transcript"
+        transcript = audios_app.generate_transcript(audio_file_path)
+        print("transcript: ", transcript)
+        # transcript = "test transcript"
 
-    # image_path = images_app.generate_image_from_transcript(transcript)
-    image_path = "test image path"
+    image_data = images_app.generate_image_from_transcript(transcript)
+    # image_path = "test image path"
 
     # add user field
     story = {
         'date': str(datetime.datetime.now()),
         'transcript': transcript,
-        'image_path': image_path
     }
 
-    with open('kaya/stories.json') as f:
+    story.update(image_data)
+
+    with open('stories.json') as f:
         data = f.read()
 
     stories = json.loads(data)
     stories.get("stories").append(story)
 
-    with open('kaya/stories.json', "w") as f:
+    with open('stories.json', "w") as f:
         json.dump(stories, f, indent=4)
     
     return JsonResponse(story)
